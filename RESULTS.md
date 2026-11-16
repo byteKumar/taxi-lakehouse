@@ -163,9 +163,10 @@ fct rows). Both re-ingests were logged as `skipped` in `bronze.load_log`.
 
 ## Not done or not verified
 
-- **GitHub Actions has not run:** the account is billing-locked.
-  `.github/workflows/ci.yml` and `scripts/ci_pipeline.sh` are in place, and the
-  script passes locally (8.3 s on the 8,000-row sample).
+- **CI:** GitHub Actions was billing-locked when these results were recorded.
+  It has since run on commit `da34e67`:
+  [run 43897711477](https://github.com/byteKumar/taxi-lakehouse/actions/runs/43897711477)
+  passed (`scripts/ci_pipeline.sh` on the 8,000-row sample, then 22 pytest tests).
 - Full-rebuild and new-month times are 3 runs each; downloads and exports were
   measured once.
 - No write-audit-publish step: a failing test stops downstream models, but the
@@ -185,6 +186,6 @@ PARTITIONING (median of 5): query | unpartitioned s | partitioned s
                             Q4 one month yellow tip rate | 0.0341 | 0.0110
                             Q5 control, all months, no filter | 0.1431 | 0.0653
 IDEMPOTENT RE-RUN row counts unchanged? yes (2026-09 run twice via Dagster: 3,922,720 bronze = 3,760,044 fct + 162,676 rejected each time)
-ANYTHING THAT FAILED OR SURPRISED YOU: Q1 slower partitioned (DuckDB estimates ~1 row after the Hive filter and builds the join hash table on the wrong side); unpartitioned baseline already ~93% skippable via row-group stats; OOM sorting fct_trips at 6 GB; DuckDB file grew 3.1 -> 6.95 GB after 3 full refreshes (free blocks never returned); full-rebuild times spread 23-50 s from other sessions' load; schema-drift bug hidden by the full data range; CI not run (account billing-locked)
+ANYTHING THAT FAILED OR SURPRISED YOU: Q1 slower partitioned (DuckDB estimates ~1 row after the Hive filter and builds the join hash table on the wrong side); unpartitioned baseline already ~93% skippable via row-group stats; OOM sorting fct_trips at 6 GB; DuckDB file grew 3.1 -> 6.95 GB after 3 full refreshes (free blocks never returned); full-rebuild times spread 23-50 s from other sessions' load; schema-drift bug hidden by the full data range; CI was billing-locked at first, later passed (run 43897711477)
 REPO pushed? yes
 ```
