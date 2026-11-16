@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: rejected_trips
+    description: Quarantined raw rows with exactly one reason code each.
+    columns:
+      - name: trip_id
+        data_tests: [unique, not_null]
+      - name: service_type
+        data_tests:
+          - accepted_values: {arguments: {values: [yellow, green]}}
+      - name: source_month
+        data_tests: [not_null]
+      - name: reject_reason
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [MISSING_TIMESTAMP, PICKUP_OUTSIDE_FILE_MONTH, DROPOFF_BEFORE_PICKUP,
+                         NEGATIVE_FARE, ZERO_DISTANCE, ABSURD_DISTANCE, UNKNOWN_ZONE]

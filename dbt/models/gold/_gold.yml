@@ -1,0 +1,96 @@
+version: 2
+
+models:
+  - name: fct_trips
+    description: One row per valid trip, partitioned by (service_type, pickup_month).
+    data_tests:
+      - expression_is_true:
+          name: fct_trips_dropoff_not_before_pickup
+          arguments: {expression: "dropoff_at >= pickup_at"}
+      - expression_is_true:
+          name: fct_trips_distance_in_range
+          arguments: {expression: "trip_distance_mi > 0 and trip_distance_mi <= {{ var('max_trip_miles', 100) }}"}
+      - expression_is_true:
+          name: fct_trips_no_negative_fares
+          arguments: {expression: "fare_amount >= 0 and total_amount >= 0"}
+      - expression_is_true:
+          name: fct_trips_trip_type_only_for_green
+          arguments: {expression: "service_type = 'green' or trip_type is null"}
+      - expression_is_true:
+          # Not a reject rule in the spec, so this warns instead of failing.
+          name: fct_trips_longer_than_24h
+          arguments: {expression: "duration_min <= 24 * 60"}
+          config: {severity: warn}
+    columns:
+      - name: trip_id
+        data_tests: [unique, not_null]
+      - name: service_type
+        data_tests:
+          - not_null
+          - accepted_values: {arguments: {values: [yellow, green]}}
+      - name: pickup_month
+        data_tests: [not_null]
+      - name: pickup_at
+        data_tests: [not_null]
+      - name: dropoff_at
+        data_tests: [not_null]
+      - name: pickup_date
+        data_tests:
+          - not_null
+          - relationships: {arguments: {to: ref('dim_date'), field: date_day}}
+      - name: pu_location_id
+        data_tests:
+          - not_null
+          - relationships: {arguments: {to: ref('dim_zone'), field: zone_id}}
+      - name: do_location_id
+        data_tests:
+          - not_null
+          - relationships: {arguments: {to: ref('dim_zone'), field: zone_id}}
+      - name: vendor_id
+        data_tests:
+          # 1 Creative Mobile, 2 Curb, 6 Myle, 7 Helix (TLC data dictionary)
+          - accepted_values: {arguments: {values: [1, 2, 6, 7], quote: false}}
+      - name: payment_type
+        data_tests:
+          # 0 flex fare, 1 card, 2 cash, 3 no charge, 4 dispute, 5 unknown, 6 voided
+          - accepted_values: {arguments: {values: [0, 1, 2, 3, 4, 5, 6], quote: false}}
+      - name: ratecode_id
+        data_tests:
+          - accepted_values: {arguments: {values: [1, 2, 3, 4, 5, 6, 99], quote: false}}
+      - name: trip_type
+        data_tests:
+          - accepted_values: {arguments: {values: [1, 2], quote: false}}
+
+  - name: dim_zone
+    columns:
+      - name: zone_id
+        data_tests: [unique, not_null]
+      - name: borough
+        data_tests: [not_null]
+      - name: airport_code
+        data_tests:
+          - accepted_values: {arguments: {values: [JFK, LGA, EWR]}}
+
+  - name: dim_date
+    columns:
+      - name: date_day
+        data_tests: [unique, not_null]
+
+  - name: mart_daily_revenue_by_borough
+    data_tests:
+      - unique_combination_of_columns:
+          arguments: {combination_of_columns: [pickup_date, service_type, pickup_borough]}
+      - expression_is_true:
+          name: mart_revenue_date_in_month
+          arguments: {expression: "date_trunc('month', pickup_date) = pickup_month"}
+    columns:
+      - name: trips
+        data_tests: [not_null]
+
+  - name: mart_airport_trip_share
+    data_tests:
+      - unique_combination_of_columns:
+          arguments: {combination_of_columns: [pickup_month, service_type]}
+      - expression_is_true:
+          name: mart_airport_share_between_0_and_1
+          arguments: {expression: "airport_trip_share between 0 and 1 and airport_trips <= trips"}
