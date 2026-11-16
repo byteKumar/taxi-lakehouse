@@ -1,0 +1,13 @@
+# Paths are relative to the dbt/ folder: run dbt from here
+# (cd dbt && ../.venv/bin/dbt build). Override with TAXI_WAREHOUSE.
+taxi_lakehouse:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('TAXI_WAREHOUSE', '../data/warehouse.duckdb') }}"
+      threads: 4
+      settings:
+        memory_limit: "{{ env_var('TAXI_DUCKDB_MEMORY', '6GB') }}"
+        temp_directory: "{{ env_var('TAXI_DUCKDB_TMP', '../data/tmp/duckdb') }}"
+        preserve_insertion_order: false

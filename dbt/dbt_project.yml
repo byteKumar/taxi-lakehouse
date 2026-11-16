@@ -1,0 +1,40 @@
+name: taxi_lakehouse
+version: "1.0.0"
+config-version: 2
+profile: taxi_lakehouse
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+# Bookkeeping for partition-level incremental runs (see macros/partitions.sql).
+on-run-start:
+  - "create schema if not exists meta"
+  - >
+    create table if not exists meta.partition_watermark (
+      model varchar, service varchar, year_month varchar,
+      load_id bigint, processed_at timestamp
+    )
+
+models:
+  taxi_lakehouse:
+    staging:
+      +schema: staging
+      +materialized: view
+    silver:
+      +schema: silver
+    gold:
+      +schema: gold
+
+seeds:
+  taxi_lakehouse:
+    +schema: gold
+    taxi_zone_lookup:
+      +column_types:
+        LocationID: integer
+        Borough: varchar
+        Zone: varchar
+        service_zone: varchar

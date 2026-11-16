@@ -3,9 +3,6 @@ files, so the HEAD / download / checksum path is the same one used for TLC."""
 
 from __future__ import annotations
 
-import functools
-import http.server
-import threading
 import time
 from pathlib import Path
 
@@ -20,19 +17,6 @@ from pipeline import config, ingest
 def write_month(dir_: Path, service: str, ym: str, n_rows: int) -> None:
     table = pa.table({"VendorID": list(range(n_rows)), "fare_amount": [10.0] * n_rows})
     pq.write_table(table, dir_ / f"{service}_tripdata_{ym}.parquet")
-
-
-@pytest.fixture
-def server(tmp_path):
-    """Serve tmp_path/remote over HTTP; yields (remote_dir, base_url)."""
-    remote = tmp_path / "remote"
-    remote.mkdir()
-    handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(remote))
-    handler.log_message = lambda *a, **k: None
-    httpd = http.server.ThreadingHTTPServer(("127.0.0.1", 0), handler)
-    threading.Thread(target=httpd.serve_forever, daemon=True).start()
-    yield remote, f"http://127.0.0.1:{httpd.server_address[1]}"
-    httpd.shutdown()
 
 
 @pytest.fixture
