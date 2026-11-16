@@ -53,9 +53,10 @@ both services (this is what Dagster partitions and backfills use).
 {#
 SQL predicate selecting the partitions. mode='source' filters the integer
 Hive columns (src_year, src_month) so DuckDB prunes files at the scan;
-mode='target' filters a materialized table by service_type and source_month.
+mode='target' filters a materialized table by service_type and its month
+column (source_month in silver, pickup_month in gold).
 #}
-{% macro partition_predicate(parts, mode='source') %}
+{% macro partition_predicate(parts, mode='source', month_col='source_month') %}
     {%- if parts is none -%} true
     {%- elif parts | length == 0 -%} false
     {%- else -%}
@@ -65,7 +66,7 @@ mode='target' filters a materialized table by service_type and source_month.
             {%- if mode == 'source' -%}
                 (service_type = '{{ s }}' and src_year = {{ y | int }} and src_month = {{ m | int }})
             {%- else -%}
-                (service_type = '{{ s }}' and source_month = date '{{ ym }}-01')
+                (service_type = '{{ s }}' and {{ month_col }} = date '{{ ym }}-01')
             {%- endif -%}
             {%- if not loop.last %} or {% endif -%}
         {%- endfor -%})
@@ -74,10 +75,10 @@ mode='target' filters a materialized table by service_type and source_month.
 
 {# pre_hook: on incremental runs delete the partitions about to be rewritten;
    on full refresh forget this model's watermarks. #}
-{% macro overwrite_partitions_pre_hook() %}
+{% macro overwrite_partitions_pre_hook(month_col='source_month') %}
     {% if is_incremental() %}
         delete from {{ this }}
-        where {{ partition_predicate(partitions_to_process(this.name), 'target') }}
+        where {{ partition_predicate(partitions_to_process(this.name), 'target', month_col) }}
     {% else %}
         delete from meta.partition_watermark where model = '{{ this.name }}'
     {% endif %}

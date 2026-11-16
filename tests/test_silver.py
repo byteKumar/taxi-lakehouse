@@ -75,7 +75,7 @@ def test_incremental_run_processes_only_new_and_changed_months(lakehouse):
 
     # Nothing new: incremental run leaves the table alone.
     lakehouse.dbt("run", "-s", "rejected_trips")
-    marks = lakehouse.query("select service, year_month from meta.partition_watermark order by all")
+    marks = lakehouse.query("select service, year_month from meta.partition_watermark where model = 'rejected_trips' order by all")
     assert marks == [("green", "2025-03"), ("yellow", "2025-03")]
 
     # New month arrives: only that partition is processed.
@@ -85,7 +85,7 @@ def test_incremental_run_processes_only_new_and_changed_months(lakehouse):
     by_month = lakehouse.query(
         "select strftime(source_month, '%Y-%m'), count(*) from silver.rejected_trips group by 1 order by 1")
     assert by_month == [("2025-03", 7), ("2025-04", 1)]
-    marks = lakehouse.query("select year_month, count(*) from meta.partition_watermark group by 1 order by 1")
+    marks = lakehouse.query("select year_month, count(*) from meta.partition_watermark where model = 'rejected_trips' group by 1 order by 1")
     assert marks == [("2025-03", 2), ("2025-04", 1)]
 
     # TLC republishes March with only one bad row: March is replaced, not appended.

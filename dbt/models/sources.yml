@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: bronze
+    schema: bronze
+    description: Written by pipeline/ingest.py. The raw trip files are read in place by the staging models.
+    tables:
+      - name: load_log
+        description: One row per ingest attempt per (service, month) file.

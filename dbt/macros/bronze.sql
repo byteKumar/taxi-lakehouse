@@ -4,8 +4,20 @@
    reads month=09 as VARCHAR. union_by_name fills columns that only exist in
    some months (cbd_congestion_fee from 2025-01, request_source from 2026-06)
    with NULL. #}
+{# The path is baked into the staging views, so it must be absolute: a
+   relative one only resolves for readers whose cwd is dbt/. #}
 {% macro raw_dir() -%}
-    {{ return(var('raw_dir', env_var('TAXI_RAW_DIR', '../data/raw'))) }}
+    {%- set configured = var('raw_dir', env_var('TAXI_RAW_DIR', '')) -%}
+    {%- if configured -%}
+        {%- set path = configured -%}
+    {%- else -%}
+        {%- set path = (invocation_args_dict.get('project_dir') or '') ~ '/../data/raw' -%}
+    {%- endif -%}
+    {%- if not path.startswith('/') -%}
+        {{ exceptions.raise_compiler_error(
+            "raw dir '" ~ path ~ "' is not absolute. Run dbt from the dbt/ folder or set TAXI_RAW_DIR to an absolute path.") }}
+    {%- endif -%}
+    {{ return(path) }}
 {%- endmacro %}
 
 {# Columns that only exist in some months. union_by_name only knows about

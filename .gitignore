@@ -23,3 +23,6 @@ tmp*/
 
 # OS
 .DS_Store
+
+# dbt anonymous-usage id
+dbt/.user.yml
