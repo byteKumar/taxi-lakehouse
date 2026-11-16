@@ -1,0 +1,25 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Raw data, warehouse files and build outputs
+data/
+*.duckdb
+*.duckdb.wal
+*.parquet
+
+# dbt
+dbt/target/
+dbt/logs/
+dbt/dbt_packages/
+logs/
+
+# Dagster
+.dagster_home/
+dagster_home/
+tmp*/
+
+# OS
+.DS_Store
