@@ -17,7 +17,7 @@ All numbers come from [RESULTS.md](RESULTS.md). They were measured on an Apple M
 ## Architecture
 
 ```mermaid
-flowchart LR
+flowchart TB
     tlc["TLC CDN<br/>monthly Parquet<br/>yellow + green"]
 
     subgraph bronze["Bronze"]
