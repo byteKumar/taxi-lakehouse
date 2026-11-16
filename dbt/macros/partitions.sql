@@ -84,8 +84,17 @@ column (source_month in silver, pickup_month in gold).
     {% endif %}
 {% endmacro %}
 
-{# post_hook: record which bronze load each processed partition came from. #}
+{# post_hook: record which bronze load each processed partition came from.
+   Replaces the model's previous mark for those partitions (one row per
+   model x partition), so forced re-runs and backfills don't grow the table. #}
 {% macro record_watermark_post_hook(parts) %}
+    delete from meta.partition_watermark
+    where model = '{{ this.name }}'
+    {%- if parts is none %} and true
+    {%- elif parts | length == 0 %} and false
+    {%- else %} and service || '|' || year_month in (
+        {%- for p in parts %}'{{ p }}'{% if not loop.last %}, {% endif %}{% endfor -%})
+    {%- endif %};
     insert into meta.partition_watermark
     select '{{ this.name }}', service, year_month, load_id, now()
     from ({{ latest_loads_sql() }}) l

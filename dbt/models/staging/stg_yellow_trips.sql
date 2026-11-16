@@ -1,3 +1,4 @@
+-- depends_on: {{ source('bronze', 'load_log') }}
 -- Yellow taxi trips, renamed and typed to the common silver schema.
 -- One row per raw row; no filtering here.
 select

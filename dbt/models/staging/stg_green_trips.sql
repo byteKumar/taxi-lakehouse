@@ -1,3 +1,4 @@
+-- depends_on: {{ source('bronze', 'load_log') }}
 -- Green taxi trips, renamed and typed to the common silver schema.
 select
     'green'                               as service_type,
