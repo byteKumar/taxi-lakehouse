@@ -1,0 +1,104 @@
+{
+  "recorded_at": "2026-11-16T10:29:31",
+  "machine": {
+    "chip": "Apple M3",
+    "cores": "8 (4 Performance and 4 Efficiency)",
+    "memory": "16 GB",
+    "disk": "internal SSD (APFS)",
+    "disk_free_gb": 7.2,
+    "os": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.12.10"
+  },
+  "month": "2026-09",
+  "unchanged": true,
+  "snapshots": [
+    {
+      "label": "before",
+      "month": {
+        "rejected_trips": 162676,
+        "fct_trips": 3760044,
+        "mart_daily_revenue_by_borough": 410,
+        "mart_airport_trip_share": 2,
+        "bronze_rows": 3922720,
+        "months_in_fct": 25
+      },
+      "total": {
+        "rejected_trips": 5913290,
+        "fct_trips": 92362220,
+        "mart_daily_revenue_by_borough": 10086,
+        "mart_airport_trip_share": 50,
+        "bronze_rows": 98275510,
+        "months_in_fct": 25
+      },
+      "trip_id_sum": 3880593882565870674400
+    },
+    {
+      "label": "after run 1",
+      "wall_s": 13.2,
+      "month": {
+        "rejected_trips": 162676,
+        "fct_trips": 3760044,
+        "mart_daily_revenue_by_borough": 410,
+        "mart_airport_trip_share": 2,
+        "bronze_rows": 3922720,
+        "months_in_fct": 25
+      },
+      "total": {
+        "rejected_trips": 5913290,
+        "fct_trips": 92362220,
+        "mart_daily_revenue_by_borough": 10086,
+        "mart_airport_trip_share": 50,
+        "bronze_rows": 98275510,
+        "months_in_fct": 25
+      },
+      "trip_id_sum": 3880593882565870674400
+    },
+    {
+      "label": "after run 2",
+      "wall_s": 12.42,
+      "month": {
+        "rejected_trips": 162676,
+        "fct_trips": 3760044,
+        "mart_daily_revenue_by_borough": 410,
+        "mart_airport_trip_share": 2,
+        "bronze_rows": 3922720,
+        "months_in_fct": 25
+      },
+      "total": {
+        "rejected_trips": 5913290,
+        "fct_trips": 92362220,
+        "mart_daily_revenue_by_borough": 10086,
+        "mart_airport_trip_share": 50,
+        "bronze_rows": 98275510,
+        "months_in_fct": 25
+      },
+      "trip_id_sum": 3880593882565870674400
+    }
+  ],
+  "load_log_rows_for_month": [
+    [
+      "yellow",
+      "loaded"
+    ],
+    [
+      "green",
+      "loaded"
+    ],
+    [
+      "yellow",
+      "skipped"
+    ],
+    [
+      "green",
+      "skipped"
+    ],
+    [
+      "yellow",
+      "skipped"
+    ],
+    [
+      "green",
+      "skipped"
+    ]
+  ]
+}

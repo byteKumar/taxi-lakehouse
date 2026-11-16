@@ -1,0 +1,132 @@
+{
+  "recorded_at": "2026-11-16T10:27:45",
+  "machine": {
+    "chip": "Apple M3",
+    "cores": "8 (4 Performance and 4 Efficiency)",
+    "memory": "16 GB",
+    "disk": "internal SSD (APFS)",
+    "disk_free_gb": 4.1,
+    "os": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.12.10"
+  },
+  "load1_at_start": 3.56,
+  "waited_s": 160.5,
+  "load1_after_each_round": [
+    3.56,
+    3.56,
+    4.15,
+    4.15,
+    4.15
+  ],
+  "runs_per_query_per_layout": 5,
+  "unpartitioned_gb": 1.69,
+  "partitioned_gb": 1.752,
+  "partitioned_files": 25,
+  "unpartitioned_row_group_stats_for_2026_03": {
+    "row_groups": 752,
+    "row_groups_overlapping": 55
+  },
+  "rows": 92362220,
+  "queries": [
+    {
+      "query": "Q1 one month's revenue by pickup borough (2026-03)",
+      "unpartitioned_s_median": 0.0437,
+      "partitioned_s_median": 0.0662,
+      "speedup": 0.66,
+      "unpartitioned_s_runs": [
+        0.0571,
+        0.0437,
+        0.0437,
+        0.0441,
+        0.0436
+      ],
+      "partitioned_s_runs": [
+        0.0716,
+        0.0662,
+        0.067,
+        0.0655,
+        0.066
+      ]
+    },
+    {
+      "query": "Q2 airport trip share by service (2026-03)",
+      "unpartitioned_s_median": 0.03,
+      "partitioned_s_median": 0.0078,
+      "speedup": 3.85,
+      "unpartitioned_s_runs": [
+        0.0313,
+        0.03,
+        0.0304,
+        0.03,
+        0.03
+      ],
+      "partitioned_s_runs": [
+        0.0085,
+        0.0077,
+        0.0078,
+        0.0078,
+        0.0076
+      ]
+    },
+    {
+      "query": "Q3 daily trips for one quarter (2026-01..03)",
+      "unpartitioned_s_median": 0.0344,
+      "partitioned_s_median": 0.0098,
+      "speedup": 3.51,
+      "unpartitioned_s_runs": [
+        0.0356,
+        0.0344,
+        0.0339,
+        0.0342,
+        0.035
+      ],
+      "partitioned_s_runs": [
+        0.013,
+        0.01,
+        0.0096,
+        0.0095,
+        0.0098
+      ]
+    },
+    {
+      "query": "Q4 yellow tip rate by payment type (2025-07)",
+      "unpartitioned_s_median": 0.0341,
+      "partitioned_s_median": 0.011,
+      "speedup": 3.1,
+      "unpartitioned_s_runs": [
+        0.0407,
+        0.0337,
+        0.0337,
+        0.0341,
+        0.0346
+      ],
+      "partitioned_s_runs": [
+        0.0194,
+        0.011,
+        0.0112,
+        0.0109,
+        0.0108
+      ]
+    },
+    {
+      "query": "Q5 control: revenue per month, all months (no filter)",
+      "unpartitioned_s_median": 0.1431,
+      "partitioned_s_median": 0.0653,
+      "speedup": 2.19,
+      "unpartitioned_s_runs": [
+        0.1817,
+        0.1417,
+        0.1394,
+        0.1431,
+        0.1451
+      ],
+      "partitioned_s_runs": [
+        0.1364,
+        0.0631,
+        0.0653,
+        0.0679,
+        0.0634
+      ]
+    }
+  ]
+}

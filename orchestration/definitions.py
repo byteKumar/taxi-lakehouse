@@ -34,7 +34,14 @@ from dagster_dbt import DbtCliResource, DbtProject, dbt_assets
 
 from pipeline import config, ingest
 
-# dbt runs as a subprocess; give it absolute paths so it does not depend on cwd.
+# dbt runs as a subprocess. Put this venv's bin/ on PATH: `dagster dev` calls
+# prepare_if_dev(), which runs `dbt parse` through its own resource that looks
+# dbt up on PATH and ignores dbt_executable below.
+_venv_bin = str(Path(sys.executable).parent)
+if _venv_bin not in os.environ.get("PATH", "").split(os.pathsep):
+    os.environ["PATH"] = _venv_bin + os.pathsep + os.environ.get("PATH", "")
+
+# Give dbt absolute paths so it does not depend on cwd.
 os.environ.setdefault("TAXI_WAREHOUSE", str(config.WAREHOUSE_PATH))
 os.environ.setdefault("TAXI_RAW_DIR", str(config.RAW_DIR))
 os.environ.setdefault("TAXI_DUCKDB_TMP", str(config.DATA_DIR / "tmp" / "duckdb"))

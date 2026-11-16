@@ -26,3 +26,9 @@ tmp*/
 
 # dbt anonymous-usage id
 dbt/.user.yml
+
+# Committed CI sample (8,000 rows)
+!ci/sample/*.parquet
+
+# Local editor/agent config
+.claude/

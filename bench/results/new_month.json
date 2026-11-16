@@ -1,0 +1,126 @@
+{
+  "recorded_at": "2026-11-16T10:02:55",
+  "machine": {
+    "chip": "Apple M3",
+    "cores": "8 (4 Performance and 4 Efficiency)",
+    "memory": "16 GB",
+    "disk": "internal SSD (APFS)",
+    "disk_free_gb": 8.4,
+    "os": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.12.10"
+  },
+  "month": "2026-09",
+  "download_s": 1.35,
+  "download_bytes": 68536597,
+  "new_rows": 3922720,
+  "dbt_build_s_runs": [
+    8.07,
+    6.54,
+    6.99
+  ],
+  "dbt_build_s_median": 6.99,
+  "counts_before": {
+    "rejected_trips": 5750614,
+    "fct_trips": 88602176,
+    "mart_daily_revenue_by_borough": 9676,
+    "mart_airport_trip_share": 48,
+    "bronze_rows": 94352790,
+    "months_in_fct": 24
+  },
+  "counts_after": {
+    "rejected_trips": 5913290,
+    "fct_trips": 92362220,
+    "mart_daily_revenue_by_borough": 10086,
+    "mart_airport_trip_share": 50,
+    "bronze_rows": 98275510,
+    "months_in_fct": 25
+  },
+  "month_counts": {
+    "rejected_trips": 162676,
+    "fct_trips": 3760044,
+    "mart_daily_revenue_by_borough": 410,
+    "mart_airport_trip_share": 2,
+    "bronze_rows": 3922720,
+    "months_in_fct": 25
+  },
+  "runs": [
+    {
+      "run": 1,
+      "kind": "real new month",
+      "load1_at_start": 3.8,
+      "waited_s": 40.1,
+      "dbt_build_s": 8.07,
+      "processed_partitions": [
+        "green|2026-09",
+        "yellow|2026-09"
+      ],
+      "models": {
+        "stg_green_trips": 0.08,
+        "stg_yellow_trips": 0.09,
+        "dim_date": 0.1,
+        "int_trips_checked": 0.04,
+        "dim_zone": 0.05,
+        "silver_trips": 0.06,
+        "rejected_trips": 0.37,
+        "fct_trips": 0.85,
+        "mart_daily_revenue_by_borough": 0.07,
+        "mart_airport_trip_share": 0.1
+      },
+      "models_s_sum": 1.81,
+      "tests_s_sum": 10.36,
+      "summary": "PASS=55 WARN=1 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=56"
+    },
+    {
+      "run": 2,
+      "kind": "replay (month's rows + watermarks removed)",
+      "load1_at_start": 3.73,
+      "waited_s": 0.0,
+      "dbt_build_s": 6.54,
+      "processed_partitions": [
+        "green|2026-09",
+        "yellow|2026-09"
+      ],
+      "models": {
+        "stg_green_trips": 0.08,
+        "stg_yellow_trips": 0.1,
+        "dim_date": 0.1,
+        "dim_zone": 0.05,
+        "int_trips_checked": 0.04,
+        "silver_trips": 0.03,
+        "rejected_trips": 0.36,
+        "fct_trips": 0.81,
+        "mart_daily_revenue_by_borough": 0.07,
+        "mart_airport_trip_share": 0.11
+      },
+      "models_s_sum": 1.75,
+      "tests_s_sum": 6.88,
+      "summary": "PASS=55 WARN=1 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=56"
+    },
+    {
+      "run": 3,
+      "kind": "replay (month's rows + watermarks removed)",
+      "load1_at_start": 3.69,
+      "waited_s": 0.0,
+      "dbt_build_s": 6.99,
+      "processed_partitions": [
+        "green|2026-09",
+        "yellow|2026-09"
+      ],
+      "models": {
+        "stg_green_trips": 0.1,
+        "stg_yellow_trips": 0.1,
+        "dim_date": 0.11,
+        "dim_zone": 0.05,
+        "int_trips_checked": 0.05,
+        "silver_trips": 0.04,
+        "rejected_trips": 0.37,
+        "fct_trips": 0.86,
+        "mart_daily_revenue_by_borough": 0.07,
+        "mart_airport_trip_share": 0.11
+      },
+      "models_s_sum": 1.86,
+      "tests_s_sum": 9.12,
+      "summary": "PASS=55 WARN=1 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=56"
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "recorded_at": "2026-11-16T10:21:42",
+  "machine": {
+    "chip": "Apple M3",
+    "cores": "8 (4 Performance and 4 Efficiency)",
+    "memory": "16 GB",
+    "disk": "internal SSD (APFS)",
+    "disk_free_gb": 6.1,
+    "os": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.12.10"
+  },
+  "dbt_build_s_runs": [
+    23.37,
+    35.62,
+    49.82
+  ],
+  "dbt_build_s_median": 35.62,
+  "counts_after": {
+    "rejected_trips": 5913290,
+    "fct_trips": 92362220,
+    "mart_daily_revenue_by_borough": 10086,
+    "mart_airport_trip_share": 50,
+    "bronze_rows": 98275510,
+    "months_in_fct": 25
+  },
+  "runs": [
+    {
+      "run": 1,
+      "load1_at_start": 3.08,
+      "waited_s": 0.0,
+      "dbt_build_s": 23.37,
+      "models": {
+        "stg_yellow_trips": 0.1,
+        "stg_green_trips": 0.1,
+        "dim_date": 0.11,
+        "dim_zone": 0.05,
+        "int_trips_checked": 0.05,
+        "silver_trips": 0.04,
+        "rejected_trips": 3.25,
+        "fct_trips": 16.37,
+        "mart_daily_revenue_by_borough": 0.61,
+        "mart_airport_trip_share": 1.53
+      },
+      "models_s_sum": 22.21,
+      "tests_s_sum": 6.5,
+      "summary": "PASS=55 WARN=1 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=56"
+    },
+    {
+      "run": 2,
+      "load1_at_start": 3.87,
+      "waited_s": 441.7,
+      "dbt_build_s": 35.62,
+      "models": {
+        "stg_green_trips": 0.1,
+        "stg_yellow_trips": 0.1,
+        "dim_date": 0.1,
+        "dim_zone": 0.05,
+        "int_trips_checked": 0.05,
+        "silver_trips": 0.04,
+        "rejected_trips": 3.41,
+        "fct_trips": 17.26,
+        "mart_daily_revenue_by_borough": 1.6,
+        "mart_airport_trip_share": 2.06
+      },
+      "models_s_sum": 24.77,
+      "tests_s_sum": 8.75,
+      "summary": "PASS=55 WARN=1 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=56"
+    },
+    {
+      "run": 3,
+      "load1_at_start": 3.8,
+      "waited_s": 563.6,
+      "dbt_build_s": 49.82,
+      "models": {
+        "stg_yellow_trips": 0.21,
+        "stg_green_trips": 0.22,
+        "dim_date": 0.23,
+        "dim_zone": 0.1,
+        "int_trips_checked": 0.08,
+        "silver_trips": 0.09,
+        "rejected_trips": 7.55,
+        "fct_trips": 33.85,
+        "mart_daily_revenue_by_borough": 1.34,
+        "mart_airport_trip_share": 3.42
+      },
+      "models_s_sum": 47.09,
+      "tests_s_sum": 14.54,
+      "summary": "PASS=55 WARN=1 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=56"
+    }
+  ]
+}

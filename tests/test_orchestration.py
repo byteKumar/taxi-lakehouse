@@ -99,3 +99,15 @@ def test_failing_dbt_test_fails_the_run(dagster_lakehouse):
     res = run(job, partition_key="2025-03")  # reconciliation covers every partition, not just March
 
     assert not res.success
+
+
+def test_definitions_load_like_dagster_dev_without_dbt_on_path():
+    """`dagster dev` sets DAGSTER_IS_DEV_CLI, which makes prepare_if_dev() run
+    `dbt parse`. It must work when the venv is not activated (dbt not on PATH)."""
+    import os
+    import sys
+    env = {**os.environ, "DAGSTER_IS_DEV_CLI": "1", "PATH": "/usr/bin:/bin"}
+    proc = subprocess.run([sys.executable, "-W", "ignore", "-c", "import orchestration.definitions as d; print(len(d.defs.assets))"],
+                          cwd=config.PROJECT_ROOT, env=env, capture_output=True, text=True)
+    assert proc.returncode == 0, proc.stderr[-2000:]
+    assert proc.stdout.strip() == "2"
